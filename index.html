@@ -1,233 +1,1099 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hamyon — Moliyaviy Savodxonlik</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body{
-      font-family:'DM Sans',sans-serif;
-      background:#f4f8fd;
-      color:#1a2740;
+    :root {
+      --sky:      #daeeff;
+      --sky-mid:  #b3d9f7;
+      --blue:     #2870c8;
+      --blue-dk:  #1a4f9c;
+      --navy:     #0d2b56;
+      --mint:     #d0f4e8;
+      --gold:     #f5c842;
+      --white:    #ffffff;
+      --off:      #f4f8fd;
+      --text:     #1a2740;
+      --muted:    #5b7494;
+      --radius:   20px;
+      --card-r:   24px;
     }
 
-    nav{
-      position:fixed;
-      top:0;left:0;right:0;
-      height:68px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0 40px;
-      background:rgba(255,255,255,0.8);
-      backdrop-filter:blur(10px);
-      z-index:100;
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
-    .logo{
-      font-family:'DM Serif Display';
-      font-size:22px;
-      color:#2870c8;
-      display:flex;
-      gap:10px;
-      align-items:center;
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 60px);
+      height: 68px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(40,112,200,0.10);
     }
 
-    .hero{
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:120px 20px 60px;
-      background:linear-gradient(160deg,#fff,#daeeff);
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--blue);
+      letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    h1{
-      font-size:70px;
-      font-family:'DM Serif Display';
-      color:#0d2b56;
+    .nav-logo .coin {
+      width: 32px; height: 32px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(245,200,66,0.5);
+      animation: float 3s ease-in-out infinite;
     }
 
-    .sub{
-      max-width:600px;
-      margin-top:20px;
-      color:#5b7494;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-4px); }
     }
 
-    .btn{
-      margin-top:30px;
-      padding:12px 28px;
-      border-radius:30px;
-      border:none;
-      background:#2870c8;
-      color:white;
-      cursor:pointer;
+    .nav-links {
+      display: flex; gap: 28px; list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      background: var(--blue);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--blue-dk) !important; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 120px clamp(20px, 8vw, 100px) 80px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--white) 0%, var(--sky) 55%, var(--sky-mid) 100%);
+    }
+
+    /* decorative blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .blob-1 { width: 460px; height: 460px; background: var(--blue);   top: -120px; right: -100px; }
+    .blob-2 { width: 340px; height: 340px; background: var(--gold);   bottom: 40px; left: -80px; }
+    .blob-3 { width: 260px; height: 260px; background: var(--mint);   top: 50%;  left: 50%; transform: translate(-50%,-50%); }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(40,112,200,0.1);
+      border: 1px solid rgba(40,112,200,0.2);
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-badge::before { content: "✦"; font-size: 0.7rem; }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(4rem, 12vw, 8.5rem);
+      line-height: 1;
+      letter-spacing: -2px;
+      color: var(--navy);
+      position: relative;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+
+    h1 .accent {
+      color: var(--blue);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      max-width: 560px;
+      margin: 28px auto 0;
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      line-height: 1.65;
+      color: var(--muted);
+      font-weight: 400;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 44px;
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      box-shadow: 0 8px 24px rgba(40,112,200,0.35);
+      text-decoration: none;
+    }
+
+    .btn-primary:hover { background: var(--blue-dk); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(40,112,200,0.45); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--blue);
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 2px solid rgba(40,112,200,0.3);
+      transition: border-color 0.25s, transform 0.2s, background 0.25s;
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover { border-color: var(--blue); background: rgba(40,112,200,0.06); transform: translateY(-2px); }
+
+    /* hero stats */
+    .hero-stats {
+      display: flex; gap: clamp(24px, 5vw, 60px); flex-wrap: wrap; justify-content: center;
+      margin-top: 72px;
+      opacity: 0; animation: fadeUp 0.7s 0.7s forwards;
+    }
+
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .stat-lbl { font-size: 0.8rem; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+    .stat-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(40,112,200,0.2);
+      align-self: center;
+    }
+
+    /* ─── CARDS SECTION ─── */
+    .section {
+      padding: clamp(64px, 10vw, 120px) clamp(20px, 6vw, 80px);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .section-desc {
+      max-width: 480px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    /* cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--card-r);
+      padding: 36px 32px 32px;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid rgba(40,112,200,0.08);
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s;
+      cursor: default;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .card.visible {
+      animation: cardIn 0.55s forwards;
+    }
+
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 56px rgba(40,112,200,0.15);
+    }
+
+    /* card accent stripe */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--card-r) var(--card-r) 0 0;
+    }
+
+    .card-1::before { background: linear-gradient(90deg, #2870c8, #6faee8); }
+    .card-2::before { background: linear-gradient(90deg, #f5c842, #f9e08a); }
+    .card-3::before { background: linear-gradient(90deg, #3cbf8a, #7de4b8); }
+
+    .card-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+    }
+
+    .card-1 .card-icon { background: rgba(40,112,200,0.1); }
+    .card-2 .card-icon { background: rgba(245,200,66,0.15); }
+    .card-3 .card-icon { background: rgba(60,191,138,0.12); }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+
+    .card-1 .card-tag { background: rgba(40,112,200,0.1); color: var(--blue); }
+    .card-2 .card-tag { background: rgba(245,200,66,0.2); color: #a07a00; }
+    .card-3 .card-tag { background: rgba(60,191,138,0.15); color: #1e8a5e; }
+
+    .card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.45rem;
+      color: var(--navy);
+      letter-spacing: -0.3px;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .card-topics {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .topic-chip {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--off);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    .btn-read {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.22s;
+      text-decoration: none;
+    }
+
+    .card-1 .btn-read { background: var(--blue); color: var(--white); box-shadow: 0 4px 16px rgba(40,112,200,0.3); }
+    .card-1 .btn-read:hover { background: var(--blue-dk); transform: translateX(3px); }
+
+    .card-2 .btn-read { background: var(--gold); color: #5a4200; box-shadow: 0 4px 16px rgba(245,200,66,0.3); }
+    .card-2 .btn-read:hover { background: #e6b930; transform: translateX(3px); }
+
+    .card-3 .btn-read { background: #3cbf8a; color: #fff; box-shadow: 0 4px 16px rgba(60,191,138,0.3); }
+    .card-3 .btn-read:hover { background: #2da574; transform: translateX(3px); }
+
+    .btn-arrow { font-size: 1rem; transition: transform 0.2s; }
+    .btn-read:hover .btn-arrow { transform: translateX(3px); }
+
+    /* ─── FEATURES STRIP ─── */
+    .features {
+      background: var(--navy);
+      padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: var(--blue);
+      border-radius: 50%;
+      opacity: 0.08;
+      top: -200px; right: -200px;
+      pointer-events: none;
+    }
+
+    .features-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .features-text h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--white);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .features-text h2 em { color: var(--gold); font-style: italic; }
+
+    .features-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 400px;
+    }
+
+    .features-list {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .feature-item:hover { background: rgba(255,255,255,0.09); transform: translateX(4px); }
+
+    .feature-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      border-radius: 12px;
+      background: rgba(40,112,200,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .feature-content h4 { color: var(--white); font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+    .feature-content p  { color: rgba(255,255,255,0.5); font-size: 0.83rem; line-height: 1.55; }
+
+    /* ─── TIPS SECTION ─── */
+    .tips-section {
+      background: var(--off);
+      padding: clamp(64px, 10vw, 120px) clamp(20px, 6vw, 80px);
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .tip-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 28px 24px;
+      border: 1.5px solid rgba(40,112,200,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .tip-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(40,112,200,0.12); }
+
+    .tip-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: rgba(40,112,200,0.12);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .tip-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .tip-card p  { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dk) 100%);
+      padding: clamp(64px, 10vw, 100px) clamp(20px, 6vw, 80px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--white);
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.05rem;
+      max-width: 440px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
+      position: relative;
+    }
+
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      color: var(--blue);
+      padding: 15px 34px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .btn-white:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,0.28); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 32px clamp(20px, 6vw, 80px);
+      font-size: 0.82rem;
+    }
+
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(13,43,86,0.55);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 28px;
+      width: 100%; max-width: 540px;
+      padding: clamp(28px,6vw,48px);
+      position: relative;
+      animation: modalIn 0.35s cubic-bezier(.22,1,.36,1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 36px; height: 36px;
+      background: var(--off);
+      border: none; border-radius: 50%;
+      font-size: 1.1rem; cursor: pointer;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--sky); }
+
+    .modal-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .modal h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem; color: var(--navy); margin-bottom: 12px;
+    }
+    .modal p { font-size: 0.92rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+
+    .modal-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .modal-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.9rem; color: var(--text);
+    }
+    .modal-list li::before {
+      content: '✓';
+      min-width: 22px; height: 22px;
+      background: rgba(40,112,200,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--blue); font-weight: 700;
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .features-inner { grid-template-columns: 1fr; gap: 40px; }
+      .features-text p { max-width: 100%; }
+      .hero-stats .stat-divider { display: none; }
+      .hero-stats { gap: 28px; }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 0 16px; }
+      .hero-actions { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
-
 <body>
 
-<nav>
-  <div class="logo">💰 Hamyon</div>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <div class="coin">💰</div>
+      Hamyon
+    </div>
+    <ul class="nav-links">
+      <li><a href="#cards">Mavzular</a></li>
+      <li><a href="#about">Haqida</a></li>
+      <li><a href="#tips">Maslahatlar</a></li>
+      <li><a href="#cta" class="nav-cta">Boshlash</a></li>
+    </ul>
+  </nav>
 
-<section class="hero">
-  <h1>Hamyon</h1>
-  <p class="sub">
-    O'zbek yoshlari uchun moliyaviy savodxonlik platformasi
-  </p>
-  <button class="btn">Boshlash</button>
-</section>
-<!-- CARDS SECTION -->
-<section style="padding:80px 20px;max-width:1100px;margin:auto;">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
 
-  <h2 style="text-align:center;font-family:'DM Serif Display';font-size:36px;color:#0d2b56;">
-    Moliyaviy bilimlar
-  </h2>
+    <div class="hero-badge">O'zbek yoshlari uchun</div>
+    <h1><span class="accent">Hamyon</span></h1>
+    <p class="hero-sub">
+      O'zbek yoshlariga moliyaviy savodxonlikni sodda va amaliy tarzda o'rgatuvchi platforma
+    </p>
 
-  <p style="text-align:center;color:#5b7494;margin-top:10px;">
-    6 ta asosiy dars bilan boshlang
-  </p>
-
-  <div style="
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-top:40px;
-  ">
-
-    <!-- 1 -->
-    <div class="card">
-      <h3>🎓 Talaba budjeti</h3>
-      <p>Daromad va xarajatni to‘g‘ri boshqarish.</p>
+    <div class="hero-actions">
+      <a href="#cards" class="btn-primary">O'rganishni boshlash →</a>
+      <a href="#about" class="btn-ghost">Ko'proq bilish</a>
     </div>
 
-    <!-- 2 -->
-    <div class="card">
-      <h3>💳 Pul boshqaruvi</h3>
-      <p>Kundalik xarajat va reja qilish.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3+</div>
+        <div class="stat-lbl">Asosiy mavzu</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-lbl">Bepul</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">O'zbek</div>
+        <div class="stat-lbl">Tilida</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="section" id="cards">
+    <div class="section-header">
+      <span class="section-eyebrow">Asosiy yo'nalishlar</span>
+      <h2 class="section-title">Moliyaviy bilimlar <em>uchta qadam</em> bilan</h2>
+      <p class="section-desc">Har bir mavzu amaliy misollar va sodda tushuntirishlar bilan to'ldirilgan.</p>
     </div>
 
-    <!-- 3 -->
-    <div class="card">
-      <h3>⚠️ Moliyaviy xatolar</h3>
-      <p>Eng ko‘p uchraydigan xatolardan qochish.</p>
-    </div>
+    <div class="cards-grid">
 
-    <!-- 4 -->
-    <div class="card">
-      <h3>📈 Investitsiya</h3>
-      <p>Pulni ko‘paytirish asoslari.</p>
-    </div>
+      <!-- Card 1 -->
+      <div class="card card-1" data-delay="0">
+        <div class="card-icon">🎓</div>
+        <span class="card-tag">Boshlang'ich</span>
+        <h3>Talaba budjeti</h3>
+        <p>Har oylik daromad va xarajatlarni qanday rejalashtirish kerakligi haqida amaliy qo'llanma. Stipendiyangizni aqlli sarflashni o'rganing.</p>
+        <div class="card-topics">
+          <span class="topic-chip">Rejalashtirish</span>
+          <span class="topic-chip">50/30/20 qoida</span>
+          <span class="topic-chip">Tejash</span>
+        </div>
+        <button class="btn-read" onclick="openModal('budget')">
+          O'qish <span class="btn-arrow">→</span>
+        </button>
+      </div>
 
-    <!-- 5 -->
-    <div class="card">
-      <h3>🏦 Bank tizimi</h3>
-      <p>Kredit va foizni tushunish.</p>
-    </div>
+      <!-- Card 2 -->
+      <div class="card card-2" data-delay="150">
+        <div class="card-icon">💳</div>
+        <span class="card-tag">Amaliy</span>
+        <h3>Pul boshqaruvi</h3>
+        <p>Kundalik xarajatlarni nazorat qilish, to'g'ri investitsiya qilish va moliyaviy maqsadlarga erishish strategiyalari.</p>
+        <div class="card-topics">
+          <span class="topic-chip">Xarajat nazorati</span>
+          <span class="topic-chip">Investitsiya</span>
+          <span class="topic-chip">Maqsad</span>
+        </div>
+        <button class="btn-read" onclick="openModal('management')">
+          O'qish <span class="btn-arrow">→</span>
+        </button>
+      </div>
 
-    <!-- 6 -->
-    <div class="card">
-      <h3>🚀 Erkinlik yo‘li</h3>
-      <p>Moliyaviy erkinlikka chiqish rejasi.</p>
-    </div>
+      <!-- Card 3 -->
+      <div class="card card-3" data-delay="300">
+        <div class="card-icon">⚠️</div>
+        <span class="card-tag">Muhim</span>
+        <h3>Moliyaviy xatolar</h3>
+        <p>Ko'pchilik yoshlar qiladigan eng keng tarqalgan moliyaviy xatolar va ulardan qanday qochish mumkinligi haqida batafsil ma'lumot.</p>
+        <div class="card-topics">
+          <span class="topic-chip">Xatolardan saboq</span>
+          <span class="topic-chip">Qarz</span>
+          <span class="topic-chip">Impulsiv xarid</span>
+        </div>
+        <button class="btn-read" onclick="openModal('mistakes')">
+          O'qish <span class="btn-arrow">→</span>
+        </button>
+      </div>
 
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="about">
+    <div class="features-inner">
+      <div class="features-text">
+        <h2>Nima uchun <em>Hamyon</em>?</h2>
+        <p>O'zbekistondagi yoshlar moliyaviy savodxonlik bo'yicha etarli manbaga ega emas. Biz buni o'zgartiramiz — sodda, amaliy va o'zbek tilida.</p>
+      </div>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">🇺🇿</div>
+          <div class="feature-content">
+            <h4>O'zbek tilida</h4>
+            <p>Barcha materiallar sof o'zbek tilida — tushunish oson, ammo professional darajada.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📱</div>
+          <div class="feature-content">
+            <h4>Istalgan qurilmada</h4>
+            <p>Telefon, planshet yoki kompyuter — Hamyon hamma joyda qulay ishlaydi.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-content">
+            <h4>Amaliy yondashuv</h4>
+            <p>Nazariy bilimlar emas, haqiqiy hayotdan olingan misollar va amaliy maslahatlar.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🆓</div>
+          <div class="feature-content">
+            <h4>Mutlaqo bepul</h4>
+            <p>Moliyaviy ta'lim — hammaning huquqi. Hech qanday to'lov talab qilinmaydi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="tips-section" id="tips">
+    <div class="section-header">
+      <span class="section-eyebrow">Tez maslahatlar</span>
+      <h2 class="section-title">Bugundan <em>boshlang</em></h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">01</div>
+        <h4>Daromadingizni hisoblab oling</h4>
+        <p>Har oyda qancha pul kirib chiqishini aniq bilish — moliyaviy nazoratning birinchi qadami.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">02</div>
+        <h4>Birinchi tejovchi — o'zingiz</h4>
+        <p>Daromad kelishi bilan darhol 10–20%ni tejashga ajrating, qolganini sarflang.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">03</div>
+        <h4>Xarajat daftari yuring</h4>
+        <p>Kichik xarajatlar yig'ilib katta summaga aylanadi. Har narsani qayd etib boring.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">04</div>
+        <h4>Favqulodda jamg'arma</h4>
+        <p>Kamida 3 oylik xarajatga teng jamg'arma fondini shakllantiring.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <h2>Moliyaviy erkinlik<br>sizni kutmoqda</h2>
+    <p>Hamyon bilan pul boshqarishni o'rganing va kelajagingizni o'z qo'lingizga oling.</p>
+    <a href="#cards" class="btn-white">🚀 Hozir boshlash</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 <strong>Hamyon</strong> — O'zbek yoshlari uchun moliyaviy savodxonlik platformasi</p>
+    <p style="margin-top:6px">Bepul · O'zbek tilida · Amaliy bilimlar</p>
+  </footer>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+    <div class="modal" id="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-body"></div>
+    </div>
   </div>
-</section>
 
-<style>
-.card{
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.06);
-  transition:0.3s;
-}
+  <script>
+    // ─── Intersection Observer for card animation ───
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+            entry.target.style.animationDelay = '0ms';
+          }, parseInt(delay));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
 
-.card:hover{
-  transform:translateY(-6px);
-}
-</style> <!-- MODAL -->
-<div id="modal" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-">
+    cards.forEach(c => observer.observe(c));
 
-  <div style="
-    background:white;
-    padding:25px;
-    border-radius:16px;
-    max-width:500px;
-    width:90%;
-  ">
+    // ─── Modal content ───
+    const modalData = {
+      budget: {
+        icon: '🎓',
+        title: 'Talaba budjeti',
+        desc: 'Talaba sifatida pulni to\'g\'ri boshqarish kelajakdagi moliyaviy barqarorlikning poydevori. Quyidagi tamoyillarni o\'rganing:',
+        items: [
+          '50/30/20 qoidasi: daromadning 50% ehtiyojlar, 30% istaklarga, 20% tejashga',
+          'Har oy boshida xarajat rejasini tuzib oling va unga rioya qiling',
+          'Stipendiya va qo\'shimcha daromadlarni alohida hisobga oling',
+          'Ovqatlanish, transport va uy ijarasi uchun ajratilgan limitni belgilang',
+          'Oylik hisobot: nima rejalashtirilgan, nima sarflangan — taqqoslang'
+        ]
+      },
+      management: {
+        icon: '💳',
+        title: 'Pul boshqaruvi',
+        desc: 'Kundalik moliyaviy qarorlar kelajagingizni belgilaydi. Samarali pul boshqaruvining asosiy usullarini o\'rganing:',
+        items: [
+          'Xarajatlarni zarur va keraksiz deb ikki guruhga ajrating',
+          'Xariddan oldin: "Bu menga haqiqatan kerakmi?" deb so\'rang',
+          'Naqd pul o\'rniga kartadan foydalanish xarajatlarni kuzatishni osonlashtiradi',
+          'Investitsiya — hatto oyiga 50,000 so\'m ham vaqt o\'tib ko\'payadi',
+          'Moliyaviy maqsad qo\'ying: 6 oyda, 1 yilda nima sotib olmoqchisiz?'
+        ]
+      },
+      mistakes: {
+        icon: '⚠️',
+        title: 'Moliyaviy xatolar',
+        desc: 'Yoshlarning 80% bir xil moliyaviy xatolarni takrorlaydi. Ularni bilsangiz — oldini olasiz:',
+        items: [
+          'Impulsiv xarid: chegirmaga aldanib kerak bo\'lmagan narsa sotib olish',
+          'Qarz bilan yashash: kredit kartani to\'liq to\'lamay faqat minimumni to\'lash',
+          'Favqulodda jamg\'armasiz qolish: bitta muammo butun oylik budjeti buzadi',
+          'Daromadni oshmasdan xarajatni oshirish — "lifestyle inflation" tuzoği',
+          'Moliyaviy ta\'limni keyinga qoldirish — har yil kechikish = yo\'qotilgan foizlar'
+        ]
+      }
+    };
 
-    <h2 id="modalTitle"></h2>
-    <p id="modalText" style="margin-top:10px;color:#5b7494;"></p>
+    function openModal(key) {
+      const data = modalData[key];
+      document.getElementById('modal-body').innerHTML = `
+        <div class="modal-icon">${data.icon}</div>
+        <h3>${data.title}</h3>
+        <p>${data.desc}</p>
+        <ul class="modal-list">
+          ${data.items.map(i => `<li>${i}</li>`).join('')}
+        </ul>
+      `;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
 
-    <button onclick="closeModal()" style="
-      margin-top:20px;
-      padding:10px 20px;
-      border:none;
-      background:#2870c8;
-      color:white;
-      border-radius:20px;
-      cursor:pointer;
-    ">
-      Yopish
-    </button>
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
+<div class="cards-grid">
+
+  <!-- 1 -->
+  <div class="card card-1" data-delay="0">
+    <div class="card-icon">🎓</div>
+    <span class="card-tag">Boshlang'ich</span>
+    <h3>Talaba budjeti</h3>
+    <p>Har oylik daromad va xarajatlarni qanday rejalashtirish kerakligi haqida amaliy qo'llanma.</p>
+    <button class="btn-read" onclick="openModal('budget')">O'qish →</button>
   </div>
+
+  <!-- 2 -->
+  <div class="card card-2" data-delay="150">
+    <div class="card-icon">💳</div>
+    <span class="card-tag">Amaliy</span>
+    <h3>Pul boshqaruvi</h3>
+    <p>Kundalik xarajatlarni nazorat qilish va moliyaviy maqsadlar.</p>
+    <button class="btn-read" onclick="openModal('management')">O'qish →</button>
+  </div>
+
+  <!-- 3 -->
+  <div class="card card-3" data-delay="300">
+    <div class="card-icon">⚠️</div>
+    <span class="card-tag">Muhim</span>
+    <h3>Moliyaviy xatolar</h3>
+    <p>Yoshlar eng ko‘p qiladigan xatolar va ularni oldini olish.</p>
+    <button class="btn-read" onclick="openModal('mistakes')">O'qish →</button>
+  </div>
+
+  <!-- 4 -->
+  <div class="card card-1" data-delay="450">
+    <div class="card-icon">📈</div>
+    <span class="card-tag">Yangi</span>
+    <h3>Investitsiya asoslari</h3>
+    <p>Pulni faqat sarflash emas, balki ko‘paytirish yo‘llari: investitsiya, aktiv va passiv daromad.</p>
+    <button class="btn-read" onclick="openModal('investment')">O'qish →</button>
+  </div>
+
+  <!-- 5 -->
+  <div class="card card-2" data-delay="600">
+    <div class="card-icon">🏦</div>
+    <span class="card-tag">Bank</span>
+    <h3>Bank va kredit tizimi</h3>
+    <p>Kredit nima, foiz qanday ishlaydi va bank tizimidan qanday to‘g‘ri foydalanish kerak.</p>
+    <button class="btn-read" onclick="openModal('bank')">O'qish →</button>
+  </div>
+
+  <!-- 6 -->
+  <div class="card card-3" data-delay="750">
+    <div class="card-icon">🚀</div>
+    <span class="card-tag">Kelajak</span>
+    <h3>Moliyaviy erkinlik yo‘li</h3>
+    <p>0 dan moliyaviy erkinlikka chiqish strategiyasi: reja, odatlar va maqsadlar.</p>
+    <button class="btn-read" onclick="openModal('freedom')">O'qish →</button>
+  </div>
+
 </div>
 
+<!-- ====== FEEDBACK SECTION ====== -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-eyebrow">Fikr bildirish</span>
+    <h2 class="section-title">Sizning <em>fikringiz</em> muhim</h2>
+    <p class="section-desc">Saytni yaxshilash uchun o‘z fikringizni qoldiring</p>
+  </div>
+
+  <div style="max-width:600px;margin:0 auto;">
+    <input id="name" placeholder="Ismingiz" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ccc;">
+    <textarea id="msg" placeholder="Fikringiz..." style="width:100%;padding:12px;height:120px;border-radius:10px;border:1px solid #ccc;"></textarea>
+    <button onclick="sendFeedback()" class="btn-primary" style="margin-top:10px;width:100%;">
+      Yuborish
+    </button>
+  </div>
+</section>
+
+<!-- ====== FOOTER (2026) ====== -->
+<footer>
+  <p>© 2026 <strong>Hamyon</strong> — O'zbek yoshlari uchun moliyaviy savodxonlik platformasi</p>
+  <p>Bepul · O'zbek tilida · Amaliy bilimlar</p>
+</footer>
+
+<!-- ====== MODAL DATA (YANGI 3 TA QO'SHILDI) ====== -->
 <script>
-const lessons = {
-  1: {
+const modalData = {
+  budget: {
+    icon: "🎓",
     title: "Talaba budjeti",
-    text: "Daromadni to‘g‘ri taqsimlash: 50/30/20 qoidasini o‘rganing."
+    desc: "Talaba uchun pulni boshqarish asoslari:",
+    items: [
+      "Daromad va xarajatni yozib boring",
+      "50/30/20 qoidasini qo‘llang",
+      "Har oy reja tuzing",
+      "Keraksiz xaridlarni kamaytiring",
+      "Tejashni odat qiling"
+    ]
   },
-  2: {
+  management: {
+    icon: "💳",
     title: "Pul boshqaruvi",
-    text: "Xarajatlarni nazorat qilish va reja tuzish juda muhim."
+    desc: "Kundalik moliyaviy nazorat:",
+    items: [
+      "Xarajatlarni kuzatish",
+      "Investitsiya qilishni boshlash",
+      "Moliyaviy maqsad qo‘yish",
+      "Kartadan ongli foydalanish",
+      "Byudjetni bo‘lish"
+    ]
   },
-  3: {
+  mistakes: {
+    icon: "⚠️",
     title: "Moliyaviy xatolar",
-    text: "Impulsiv xarid va qarzdan ehtiyot bo‘ling."
+    desc: "Eng keng tarqalgan xatolar:",
+    items: [
+      "Impulsiv xarid",
+      "Qarzga bog‘lanib qolish",
+      "Tejamkorlik yo‘qligi",
+      "Rejasiz sarf",
+      "Moliyaviy bilim yetishmasligi"
+    ]
   },
-  4: {
-    title: "Investitsiya",
-    text: "Pulni faqat sarflash emas, ko‘paytirish ham kerak."
+
+  investment: {
+    icon: "📈",
+    title: "Investitsiya asoslari",
+    desc: "Pulni ko‘paytirish yo‘llari:",
+    items: [
+      "Aktiv va passiv daromad farqi",
+      "Kichik summadan boshlash",
+      "Riskni tushunish",
+      "Uzoq muddatli fikrlash",
+      "Bilimsiz investitsiya qilmaslik"
+    ]
   },
-  5: {
-    title: "Bank tizimi",
-    text: "Kredit va foiz ishlashini tushunish zarur."
+
+  bank: {
+    icon: "🏦",
+    title: "Bank va kredit",
+    desc: "Bank tizimini tushunish:",
+    items: [
+      "Kredit foizi qanday ishlaydi",
+      "Bank xizmatlarini solishtirish",
+      "Qarz xavfi",
+      "Kredit tarix",
+      "Moliyaviy reja bilan kredit olish"
+    ]
   },
-  6: {
+
+  freedom: {
+    icon: "🚀",
     title: "Moliyaviy erkinlik",
-    text: "To‘g‘ri reja bilan erkin hayotga chiqish mumkin."
+    desc: "0 dan erkinlikka chiqish:",
+    items: [
+      "Daromad manbalarini ko‘paytirish",
+      "Tejamkor hayot tarzi",
+      "Investitsiya qilish",
+      "Odatlarni o‘zgartirish",
+      "Uzoq muddatli reja"
+    ]
   }
 };
 
-function openLesson(id){
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("modalTitle").innerText = lessons[id].title;
-  document.getElementById("modalText").innerText = lessons[id].text;
-}
+// feedback function
+function sendFeedback(){
+  const name = document.getElementById("name").value;
+  const msg = document.getElementById("msg").value;
 
-function closeModal(){
-  document.getElementById("modal").style.display = "none";
+  if(!name || !msg){
+    alert("Iltimos hammasini to‘ldiring!");
+    return;
+  }
+
+  alert("Rahmat " + name + "! Fikringiz qabul qilindi.");
 }
-</script>h
+</script>
