@@ -923,3 +923,177 @@
   </script>
 </body>
 </html>
+<div class="cards-grid">
+
+  <!-- 1 -->
+  <div class="card card-1" data-delay="0">
+    <div class="card-icon">🎓</div>
+    <span class="card-tag">Boshlang'ich</span>
+    <h3>Talaba budjeti</h3>
+    <p>Har oylik daromad va xarajatlarni qanday rejalashtirish kerakligi haqida amaliy qo'llanma.</p>
+    <button class="btn-read" onclick="openModal('budget')">O'qish →</button>
+  </div>
+
+  <!-- 2 -->
+  <div class="card card-2" data-delay="150">
+    <div class="card-icon">💳</div>
+    <span class="card-tag">Amaliy</span>
+    <h3>Pul boshqaruvi</h3>
+    <p>Kundalik xarajatlarni nazorat qilish va moliyaviy maqsadlar.</p>
+    <button class="btn-read" onclick="openModal('management')">O'qish →</button>
+  </div>
+
+  <!-- 3 -->
+  <div class="card card-3" data-delay="300">
+    <div class="card-icon">⚠️</div>
+    <span class="card-tag">Muhim</span>
+    <h3>Moliyaviy xatolar</h3>
+    <p>Yoshlar eng ko‘p qiladigan xatolar va ularni oldini olish.</p>
+    <button class="btn-read" onclick="openModal('mistakes')">O'qish →</button>
+  </div>
+
+  <!-- 4 -->
+  <div class="card card-1" data-delay="450">
+    <div class="card-icon">📈</div>
+    <span class="card-tag">Yangi</span>
+    <h3>Investitsiya asoslari</h3>
+    <p>Pulni faqat sarflash emas, balki ko‘paytirish yo‘llari: investitsiya, aktiv va passiv daromad.</p>
+    <button class="btn-read" onclick="openModal('investment')">O'qish →</button>
+  </div>
+
+  <!-- 5 -->
+  <div class="card card-2" data-delay="600">
+    <div class="card-icon">🏦</div>
+    <span class="card-tag">Bank</span>
+    <h3>Bank va kredit tizimi</h3>
+    <p>Kredit nima, foiz qanday ishlaydi va bank tizimidan qanday to‘g‘ri foydalanish kerak.</p>
+    <button class="btn-read" onclick="openModal('bank')">O'qish →</button>
+  </div>
+
+  <!-- 6 -->
+  <div class="card card-3" data-delay="750">
+    <div class="card-icon">🚀</div>
+    <span class="card-tag">Kelajak</span>
+    <h3>Moliyaviy erkinlik yo‘li</h3>
+    <p>0 dan moliyaviy erkinlikka chiqish strategiyasi: reja, odatlar va maqsadlar.</p>
+    <button class="btn-read" onclick="openModal('freedom')">O'qish →</button>
+  </div>
+
+</div>
+
+<!-- ====== FEEDBACK SECTION ====== -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-eyebrow">Fikr bildirish</span>
+    <h2 class="section-title">Sizning <em>fikringiz</em> muhim</h2>
+    <p class="section-desc">Saytni yaxshilash uchun o‘z fikringizni qoldiring</p>
+  </div>
+
+  <div style="max-width:600px;margin:0 auto;">
+    <input id="name" placeholder="Ismingiz" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ccc;">
+    <textarea id="msg" placeholder="Fikringiz..." style="width:100%;padding:12px;height:120px;border-radius:10px;border:1px solid #ccc;"></textarea>
+    <button onclick="sendFeedback()" class="btn-primary" style="margin-top:10px;width:100%;">
+      Yuborish
+    </button>
+  </div>
+</section>
+
+<!-- ====== FOOTER (2026) ====== -->
+<footer>
+  <p>© 2026 <strong>Hamyon</strong> — O'zbek yoshlari uchun moliyaviy savodxonlik platformasi</p>
+  <p>Bepul · O'zbek tilida · Amaliy bilimlar</p>
+</footer>
+
+<!-- ====== MODAL DATA (YANGI 3 TA QO'SHILDI) ====== -->
+<script>
+const modalData = {
+  budget: {
+    icon: "🎓",
+    title: "Talaba budjeti",
+    desc: "Talaba uchun pulni boshqarish asoslari:",
+    items: [
+      "Daromad va xarajatni yozib boring",
+      "50/30/20 qoidasini qo‘llang",
+      "Har oy reja tuzing",
+      "Keraksiz xaridlarni kamaytiring",
+      "Tejashni odat qiling"
+    ]
+  },
+  management: {
+    icon: "💳",
+    title: "Pul boshqaruvi",
+    desc: "Kundalik moliyaviy nazorat:",
+    items: [
+      "Xarajatlarni kuzatish",
+      "Investitsiya qilishni boshlash",
+      "Moliyaviy maqsad qo‘yish",
+      "Kartadan ongli foydalanish",
+      "Byudjetni bo‘lish"
+    ]
+  },
+  mistakes: {
+    icon: "⚠️",
+    title: "Moliyaviy xatolar",
+    desc: "Eng keng tarqalgan xatolar:",
+    items: [
+      "Impulsiv xarid",
+      "Qarzga bog‘lanib qolish",
+      "Tejamkorlik yo‘qligi",
+      "Rejasiz sarf",
+      "Moliyaviy bilim yetishmasligi"
+    ]
+  },
+
+  investment: {
+    icon: "📈",
+    title: "Investitsiya asoslari",
+    desc: "Pulni ko‘paytirish yo‘llari:",
+    items: [
+      "Aktiv va passiv daromad farqi",
+      "Kichik summadan boshlash",
+      "Riskni tushunish",
+      "Uzoq muddatli fikrlash",
+      "Bilimsiz investitsiya qilmaslik"
+    ]
+  },
+
+  bank: {
+    icon: "🏦",
+    title: "Bank va kredit",
+    desc: "Bank tizimini tushunish:",
+    items: [
+      "Kredit foizi qanday ishlaydi",
+      "Bank xizmatlarini solishtirish",
+      "Qarz xavfi",
+      "Kredit tarix",
+      "Moliyaviy reja bilan kredit olish"
+    ]
+  },
+
+  freedom: {
+    icon: "🚀",
+    title: "Moliyaviy erkinlik",
+    desc: "0 dan erkinlikka chiqish:",
+    items: [
+      "Daromad manbalarini ko‘paytirish",
+      "Tejamkor hayot tarzi",
+      "Investitsiya qilish",
+      "Odatlarni o‘zgartirish",
+      "Uzoq muddatli reja"
+    ]
+  }
+};
+
+// feedback function
+function sendFeedback(){
+  const name = document.getElementById("name").value;
+  const msg = document.getElementById("msg").value;
+
+  if(!name || !msg){
+    alert("Iltimos hammasini to‘ldiring!");
+    return;
+  }
+
+  alert("Rahmat " + name + "! Fikringiz qabul qilindi.");
+}
+</script>
