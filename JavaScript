@@ -1,0 +1,25 @@
+function sendFeedback(){
+  const name = document.getElementById("name").value;
+  const msg = document.getElementById("msg").value;
+
+  if(!name || !msg){
+    alert("Iltimos hammasini to‘ldiring!");
+    return;
+  }
+
+  const feedback = {
+    name: name,
+    message: msg,
+    time: new Date().toLocaleString()
+  };
+
+  let allFeedback = JSON.parse(localStorage.getItem("feedbacks")) || [];
+  allFeedback.push(feedback);
+
+  localStorage.setItem("feedbacks", JSON.stringify(allFeedback));
+
+  alert("Rahmat " + name + "! Fikringiz saqlandi.");
+
+  document.getElementById("name").value = "";
+  document.getElementById("msg").value = "";
+}
